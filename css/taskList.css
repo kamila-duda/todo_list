@@ -1,0 +1,47 @@
+.taskList__header {
+    background-color: #fff;
+    margin: 0 0 2px;
+    padding: 20px;
+}
+.taskList__element {
+    background-color: #fff;
+    min-height: 70px;
+    margin: 0;
+    padding: 20px;
+    list-style: none;
+}
+.taskList__item {
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.taskList__itemCheck {
+    background-color: green;
+    width: 30px;
+    height: 30px;
+    border: none;
+    margin: 10px;
+    color: #fff;
+    font-weight: bold;
+}
+.taskList__itemDelete {
+    background-color: red;
+    width: 30px;
+    height: 30px;
+    border: none;
+    margin: 10px;
+    justify-self: flex-end;
+    color: #fff;
+}
+.icon-trash::before{
+    margin: auto;
+}
+.taskList__text{
+    flex-grow: 1;
+	overflow: hidden;
+    text-overflow: ellipsis;
+}
+.taskList__text--lineThrough {
+    text-decoration: line-through;
+}

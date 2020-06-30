@@ -1,0 +1,27 @@
+.form{
+    margin-bottom: 15px;
+}
+.form__header{
+    background-color: #fff;
+    margin: 0 0 2px;
+    padding: 20px;
+}
+.form__element{
+    background-color: #fff;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.form__item{
+    flex-basis: 75%;
+}
+.form__button{
+    flex-basis: 20%;
+    background-color: teal;
+    color: #fff;
+    padding: 13px;
+    border: unset;
+    cursor: pointer;
+}
