@@ -7,11 +7,10 @@
 
     const checkItem = () => {
         const check = document.querySelectorAll(".taskList__itemCheck");
-        const taskListText = document.querySelectorAll(".taskList__text");
         check.forEach((checkBox, index) => {
             checkBox.addEventListener("click", () => {
                 taskListArray[index].done ? taskListArray[index].done = false : taskListArray[index].done = true;
-               displayList();
+                displayList();
             });
         });
     };
@@ -39,7 +38,7 @@
 
     const addTask = () => {
         const newTask = document.querySelector(".js-form__item").value.trim();
-        if(newTask === ""){
+        if (newTask === "") {
             return;
         };
         taskListArray.push({
