@@ -1,5 +1,5 @@
 # To Do List
-> Application to create a list of tasks. kamila-duda.github.io/todo_list/
+> Application to create a list of tasks. https://kamila-duda.github.io/todo_list/
 
 ## Table of contents
 * [General info](#general-info)
