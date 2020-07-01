@@ -5,6 +5,7 @@
     background-color: #fff;
     margin: 0 0 2px;
     padding: 20px;
+    font-size: 22px;
 }
 .form__element{
     background-color: #fff;
@@ -17,6 +18,13 @@
 .form__item{
     flex-basis: 75%;
 }
+@media(max-width: 767px){
+    .form__item{
+      flex-basis: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+  }
 .form__button{
     flex-basis: 20%;
     background-color: teal;
@@ -25,3 +33,9 @@
     border: unset;
     cursor: pointer;
 }
+@media(max-width: 767px){
+    .form__button{
+      flex-basis: 100%;
+      padding: 10px;
+    }
+  }
