@@ -32,6 +32,11 @@
     padding: 13px;
     border: unset;
     cursor: pointer;
+    transition: 1s;
+}
+.form__button:hover{
+  background-color: rgb(3, 192, 192);
+  transform: scale(1.1);
 }
 @media(max-width: 767px){
     .form__button{

@@ -1,5 +1,6 @@
 {
-    const taskListArray = [];
+    let taskListArray = [];
+    let hideShowButtonFlag = false;
     const clearInputText = () => {
         const inputField = document.querySelector(".js-form__item");
         inputField.value = "";
@@ -19,18 +20,56 @@
         const removes = document.querySelectorAll(".taskList__itemDelete");
         removes.forEach((remove, index) => {
             remove.addEventListener("click", () => {
-                array.splice(index, 1);
+                array = [
+                    ...array.splice(index, 1)
+                ]
                 displayList();
             });
         });
     };
+    const onClickHideShowButton = () => {
+        if (hideShowButtonFlag) {
+            hideShowButton.innerText = "Ukryj ukończone"
+            const doneTasks = taskListArray.filter(({ done }) => done);
+            for (const doneTask of doneTasks) {
+                doneTask.display = true;
+            }
+            hideShowButtonFlag = false;
+        } else {
+            hideShowButton.innerText = "Pokaż ukończone";
+            const doneTasks = taskListArray.filter(({ done }) => done);
+            for (const doneTask of doneTasks) {
+                doneTask.display = false;
+            }
+            hideShowButtonFlag = true;
+        }
+        displayList();
+    }
+    const hideShowButton = document.querySelector(".js-taskList__buttonHideShow");
+    hideShowButton.addEventListener("click", onClickHideShowButton);
+    const checkAllButton = document.querySelector(".js-taskList__buttonCheckAll");
+    const onClickCheckAllButton = () => {
+        const check = document.querySelectorAll(".taskList__itemCheck");
+        for (i = 0; i < check.length; i++) {
+            taskListArray[i].done = true;
 
-    const displayList = () => {
+        };
+        checkAllButton.disabled = true;
+        displayList();
+    };
+
+    checkAllButton.addEventListener("click", onClickCheckAllButton);
+
+    const displayTask = () => {
         let list = "";
         for (const taskListArrayItem of taskListArray) {
-            list += `<li class="taskList__item"><input type="button" ${taskListArrayItem.done ? "value =\"&#x2713\"" : ""} class="taskList__itemCheck"></button><span ${taskListArrayItem.done ? "style=\"text-decoration: line-through\"" : ""} class="taskList__text">${taskListArrayItem.content}</span><button class="taskList__itemDelete"><i class="icon-trash"></i></button></li>`;
+            list += `<li ${taskListArrayItem.display ? "class=\"taskList__item\"" : "class=\"taskList__item taskList__item--hide\""} ><input type="button" ${taskListArrayItem.done ? "value =\"&#x2713\"" : ""} class="taskList__itemCheck"></button><span ${taskListArrayItem.done ? "style=\"text-decoration: line-through\"" : ""} class="taskList__text">${taskListArrayItem.content}</span><button class="taskList__itemDelete"><i class="icon-trash"></i></button></li>`;
         };
+
         document.querySelector(".js-taskList__element").innerHTML = list;
+    }
+    const displayList = () => {
+        displayTask();
         clearInputText();
         checkItem();
         deleteItem(taskListArray);
@@ -41,18 +80,30 @@
         if (newTask === "") {
             return;
         };
-        taskListArray.push({
-            content: newTask,
-            done: false,
-        });
+        taskListArray = [
+            ...taskListArray,
+            {
+                content: newTask,
+                done: false,
+                display: true,
+            },
+        ];
         displayList();
     };
 
+
+
+    const showButtons = () => {
+        if (taskListArray.length > 0) {
+            hideShowButton.style.display = "unset";
+            checkAllButton.style.display = "unset";
+        }
+    }
     const onSubmitForm = (event) => {
         event.preventDefault();
         document.querySelector(".js-form__item").focus();
         addTask();
-
+        showButtons();
     };
 
     const form = document.querySelector(".js-form");
