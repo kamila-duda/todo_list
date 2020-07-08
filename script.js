@@ -68,11 +68,21 @@
 
         document.querySelector(".js-taskList__element").innerHTML = list;
     }
+    const showButtons = () => {
+        if (taskListArray.length > 0) {
+            hideShowButton.style.display = "unset";
+            checkAllButton.style.display = "unset";
+        }else{
+            hideShowButton.style.display = "none";
+            checkAllButton.style.display = "none";
+        }
+    }
     const displayList = () => {
         displayTask();
         clearInputText();
         checkItem();
         deleteItem(taskListArray);
+        showButtons();
     };
 
     const addTask = () => {
@@ -91,19 +101,11 @@
         displayList();
     };
 
-
-
-    const showButtons = () => {
-        if (taskListArray.length > 0) {
-            hideShowButton.style.display = "unset";
-            checkAllButton.style.display = "unset";
-        }
-    }
     const onSubmitForm = (event) => {
         event.preventDefault();
         document.querySelector(".js-form__item").focus();
         addTask();
-        showButtons();
+        
     };
 
     const form = document.querySelector(".js-form");
