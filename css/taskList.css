@@ -12,29 +12,28 @@
         justify-content: center;
     }
   }
-.taskList__title{
+.section__header{
     justify-self: flex-start;
     flex-grow: 1;
 }
 @media(max-width: 767px){
-    .taskList__title{
+    .section__header{
         justify-self: unset;
         flex-basis: 100%;
     }
   }
-.taskList__button{
+.markAllDone, .toggleHideDoneTasks{
     color: teal;
     cursor: pointer;
     background-color: transparent;
     border: none;
     margin: 10px;
     transition: 1s;
-    display: none;
 }
-.taskList__button:hover{
+.markAllDone:hover, .toggleHideDoneTasks:hover{
     color: rgb(10, 218, 218);
 }
-.taskList__element {
+.tasks {
     background-color: #fff;
     min-height: 70px;
     margin: 0;
@@ -42,16 +41,23 @@
     list-style: none;
 }
 
-.taskList__item {
+.tasks__item {
     border-bottom: 1px solid #ddd;
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
-.taskList__item--hide{
+.tasks__item--hide{
     display: none;
 }
-.taskList__itemCheck {
+.buttons{
+    display: flex;
+    justify-content: flex-end;
+}
+.buttons__button:disabled{
+    color: gray;
+}
+.tasks__checkButton {
     background-color: green;
     width: 30px;
     height: 30px;
@@ -61,10 +67,10 @@
     font-weight: bold;
     transition: 1s;
 }
-.taskList__itemCheck:hover {
+.tasks__checkButton:hover {
     background-color: rgb(0, 223, 0);
 }
-.taskList__itemDelete {
+.tasks__deleteButton {
     background-color: red;
     width: 30px;
     height: 30px;
@@ -74,17 +80,17 @@
     color: #fff;
     transition: 1s;
 }
-.taskList__itemDelete:hover{
+.tasks__deleteButton:hover{
     background-color: rgb(255, 111, 111);
 }
 .icon-trash::before{
     margin: auto;
 }
-.taskList__text{
+.tasks__text{
     flex-grow: 1;
 	overflow: hidden;
     text-overflow: ellipsis;
 }
-.taskList__text--lineThrough {
+.tasks__text--lineThrough {
     text-decoration: line-through;
 }

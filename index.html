@@ -13,26 +13,30 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="css/form.css" rel="stylesheet">
     <link href="css/taskList.css" rel="stylesheet">
+    <link href="css/section.css" rel="stylesheet">
     <script src="script.js" defer></script>
 </head>
 
 <body class="body">
     <main class="container">
         <h1 class="header">Lista zadań</h1>
-        <form class="form js-form">
-            <h2 class="form__header">Dodaj nowe zadanie</h2>
-                <p class="form__element"><input type="text" class="form__item js-form__item" placeholder="Co jest do zrobienia?"><button class="form__button js-form__button">Dodaj zadanie</button></p>
-        </form>
-        <section class="taskList">
-            <header class="taskList__header">
-                <h2 class="taskList__title">Lista zadań</h2>
-                <button class="taskList__button js-taskList__buttonHideShow">Ukryj ukończone</button>
-                <button class="taskList__button js-taskList__buttonCheckAll">Ukończ wszystkie</button>
-            </header>
-            
-            <ul class="taskList__element js-taskList__element">
+        <section class="section">
+            <h2 class="section__header">Dodaj nowe zadanie</h2>
+            <div class="section__body">
+                <form class="form js-form">
+                
+                    <input type="text" class="form__item" placeholder="Co jest do zrobienia?"><button class="form__button js-form__button">Dodaj zadanie</button>
+            </form>
+            </div>
+        </section>
+        <section class="section">
+            <h2 class="section__header">Lista zadań</h2>
+            <div class="section__body">
+                <div class="buttons"></div>
+            <ul class="tasks">
 
             </ul>
+            </div>
         </section>
     </main>
 </body>

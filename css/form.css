@@ -1,16 +1,6 @@
 .form{
-    margin-bottom: 15px;
-}
-.form__header{
-    background-color: #fff;
-    margin: 0 0 2px;
-    padding: 20px;
-    font-size: 22px;
-}
-.form__element{
     background-color: #fff;
     margin: 0;
-    padding: 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

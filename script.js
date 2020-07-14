@@ -1,113 +1,122 @@
 {
-    let taskListArray = [];
+    let tasks = [];
     let hideShowButtonFlag = false;
-    const clearInputText = () => {
-        const inputField = document.querySelector(".js-form__item");
-        inputField.value = "";
-    };
 
-    const checkItem = () => {
-        const check = document.querySelectorAll(".taskList__itemCheck");
-        check.forEach((checkBox, index) => {
-            checkBox.addEventListener("click", () => {
-                taskListArray[index].done ? taskListArray[index].done = false : taskListArray[index].done = true;
-                displayList();
-            });
-        });
-    };
-
-    const deleteItem = (array) => {
-        const removes = document.querySelectorAll(".taskList__itemDelete");
-        removes.forEach((remove, index) => {
-            remove.addEventListener("click", () => {
-                array = [
-                    ...array.splice(index, 1)
-                ]
-                displayList();
-            });
-        });
-    };
-    const onClickHideShowButton = () => {
-        if (hideShowButtonFlag) {
-            hideShowButton.innerText = "Ukryj ukończone"
-            const doneTasks = taskListArray.filter(({ done }) => done);
-            for (const doneTask of doneTasks) {
-                doneTask.display = true;
-            }
-            hideShowButtonFlag = false;
-        } else {
-            hideShowButton.innerText = "Pokaż ukończone";
-            const doneTasks = taskListArray.filter(({ done }) => done);
-            for (const doneTask of doneTasks) {
-                doneTask.display = false;
-            }
-            hideShowButtonFlag = true;
-        }
-        displayList();
-    }
-    const hideShowButton = document.querySelector(".js-taskList__buttonHideShow");
-    hideShowButton.addEventListener("click", onClickHideShowButton);
-    const checkAllButton = document.querySelector(".js-taskList__buttonCheckAll");
-    const onClickCheckAllButton = () => {
-        const check = document.querySelectorAll(".taskList__itemCheck");
-        for (i = 0; i < check.length; i++) {
-            taskListArray[i].done = true;
-
-        };
-        checkAllButton.disabled = true;
+    const deleteTask = (taskIndex) => {
+        tasks = [
+            ...tasks.slice(0, taskIndex),
+            ...tasks.slice(taskIndex + 1),
+        ];
         displayList();
     };
-
-    checkAllButton.addEventListener("click", onClickCheckAllButton);
-
-    const displayTask = () => {
-        let list = "";
-        for (const taskListArrayItem of taskListArray) {
-            list += `<li ${taskListArrayItem.display ? "class=\"taskList__item\"" : "class=\"taskList__item taskList__item--hide\""} ><input type="button" ${taskListArrayItem.done ? "value =\"&#x2713\"" : ""} class="taskList__itemCheck"></button><span ${taskListArrayItem.done ? "style=\"text-decoration: line-through\"" : ""} class="taskList__text">${taskListArrayItem.content}</span><button class="taskList__itemDelete"><i class="icon-trash"></i></button></li>`;
-        };
-
-        document.querySelector(".js-taskList__element").innerHTML = list;
-    }
-    const showButtons = () => {
-        if (taskListArray.length > 0) {
-            hideShowButton.style.display = "unset";
-            checkAllButton.style.display = "unset";
-        }else{
-            hideShowButton.style.display = "none";
-            checkAllButton.style.display = "none";
-        }
-    }
-    const displayList = () => {
-        displayTask();
-        clearInputText();
-        checkItem();
-        deleteItem(taskListArray);
-        showButtons();
-    };
-
-    const addTask = () => {
-        const newTask = document.querySelector(".js-form__item").value.trim();
-        if (newTask === "") {
-            return;
-        };
-        taskListArray = [
-            ...taskListArray,
+    const toggleTaskDone = (taskIndex) => {
+        
+        tasks = [
+            ...tasks.slice(0, taskIndex),
             {
-                content: newTask,
-                done: false,
-                display: true,
+                ...tasks[taskIndex],
+                done: !tasks[taskIndex].done,
+            },
+            ...tasks.slice(taskIndex + 1),
+        ];
+        displayList();
+    }
+    
+    const markAllTasksDone = () => {
+        tasks = tasks.map((task) => ({
+            ...task,
+            done: true,
+        }));
+
+        displayList();
+    };
+
+    const toggleHideDoneTasks = () => {
+        console.log(tasks)
+        hideShowButtonFlag = !hideShowButtonFlag;
+        displayList();
+    };
+    const bindRemoveEvents = () => {
+        const removeButtons = document.querySelectorAll(".tasks__deleteButton");
+
+        removeButtons.forEach((removeButton, taskIndex) => {
+            removeButton.addEventListener("click", () => {
+                deleteTask(taskIndex);
+            });
+        });
+    };
+
+    const bindToggleDoneEvents = () => {
+        const toggleDoneButtons = document.querySelectorAll(".tasks__checkButton");
+
+        toggleDoneButtons.forEach((toggleDoneButton, taskIndex) => {
+            toggleDoneButton.addEventListener("click", () => {
+                toggleTaskDone(taskIndex);
+            });
+        });
+    };
+    const displayTask = () => {
+        const taskToHTML = task => `
+        <li class="tasks__item${task.done && hideShowButtonFlag ? "  tasks__item--hide" : ""} "><button class="tasks__checkButton"> ${task.done ? "&#x2713" : ""} </button><span ${task.done ? "style=\"text-decoration: line-through\"" : ""} class="tasks__text">${task.content}</span><button class="tasks__deleteButton"><i class="icon-trash"></i></button></li>`;
+        const tasksElement = document.querySelector(".tasks");
+        tasksElement.innerHTML = tasks.map(taskToHTML).join("");
+        };
+
+    const showButtons = () => {
+        const buttonElement = document.querySelector(".buttons");
+
+        if (!tasks.length) {
+            buttonElement.innerHTML = "";
+            return;
+        }
+        buttonElement.innerHTML = `
+        <button class="buttons__button toggleHideDoneTasks">
+        ${hideShowButtonFlag ? "Pokaż" : "Ukryj"} ukończone</button>
+        <button class="buttons__button markAllDone"
+        ${tasks.every(({done}) => done) ? "disabled" : ""}>
+        Ukończ wszystkie</button>`;
+    };
+    const bindButtonsEvents = () => {
+        const markAllDoneButton = document.querySelector(".markAllDone");
+        if (markAllDoneButton){
+            markAllDoneButton.addEventListener("click", markAllTasksDone);
+        };
+        const toggleHideDoneTasksButton = document.querySelector(".toggleHideDoneTasks");
+        if(toggleHideDoneTasksButton){
+            toggleHideDoneTasksButton.addEventListener("click", toggleHideDoneTasks);
+        };     
+    };
+
+    const addTask = (newTaskContent) => {
+        tasks = [
+            ...tasks,
+            {
+                content: newTaskContent
             },
         ];
         displayList();
     };
 
+    const displayList = () => {
+        displayTask();
+        bindRemoveEvents();
+        bindToggleDoneEvents();
+        showButtons();
+        bindButtonsEvents();
+    };
+
     const onSubmitForm = (event) => {
         event.preventDefault();
-        document.querySelector(".js-form__item").focus();
-        addTask();
+        const newTaskElement = document.querySelector(".form__item");
+        const newTaskContent = newTaskElement.value.trim();
+        if(newTaskContent !== "") {
+            addTask(newTaskContent);
+            newTaskElement.value = "";
+        }
+        newTaskElement.focus();
         
     };
 
-    const form = document.querySelector(".js-form");
+    const form = document.querySelector(".form");
     form.addEventListener("submit", onSubmitForm);
 }
